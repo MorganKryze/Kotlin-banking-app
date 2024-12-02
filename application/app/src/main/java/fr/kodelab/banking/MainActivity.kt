@@ -38,8 +38,14 @@ class MainActivity : AppCompatActivity() {
         // Observe the current destination and update the visibility of the BottomNavigationView
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.landingFragment, R.id.authFragment -> navView.visibility = View.GONE
-                else -> navView.visibility = View.VISIBLE
+                R.id.landingFragment, R.id.authFragment -> {
+                    navView.visibility = View.GONE
+                    supportActionBar?.hide() // Hide the ActionBar for landing and auth pages
+                }
+                else -> {
+                    navView.visibility = View.VISIBLE
+                    supportActionBar?.show() // Show the ActionBar for other pages
+                }
             }
         }
 
@@ -54,5 +60,9 @@ class MainActivity : AppCompatActivity() {
     private fun isUserAuthenticated(): Boolean {
         // Implement your authentication check logic here
         return false
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

@@ -1,0 +1,8 @@
+<resources>
+    <!-- Define your main colors for dark mode here -->
+    <color name="colorPrimary">#BB86FC</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC6</color>
+    <color name="colorWhite">#000000</color> <!-- Swap white and black for dark mode -->
+    <color name="colorBlack">#FFFFFF</color>
+</resources>

@@ -3,4 +3,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="landing_image_description">Description of the landing image</string>
+    <string name="landing_text">Welcome to our app! Discover amazing features and start your journey
+        with us.</string>
+    <string name="go_to_auth">Login here</string>
 </resources>
