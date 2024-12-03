@@ -17,7 +17,6 @@ import fr.kodelab.banking.model.User
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 class AuthFragment : Fragment() {
 
@@ -53,19 +52,8 @@ class AuthFragment : Fragment() {
             binding.textViewWelcome.visibility = View.VISIBLE
             binding.editTextUsername.visibility = View.GONE
             binding.buttonCreateAccount.visibility = View.GONE
-
-            val lastLoginDate = user!!.lastLogin?.let { parseDate(it) }
-            val currentDate = Date()
-            val diffInDays = lastLoginDate?.let { (currentDate.time - it.time) / TimeUnit.DAYS.toMillis(1) }
-
-            if (diffInDays != null && diffInDays < 45) {
-                Toast.makeText(context, "Automatically logged in", Toast.LENGTH_SHORT).show()
-                // Navigate to the home page if the last login is less than 45 days
-                findNavController().navigate(R.id.action_authFragment_to_homeFragment)
-            } else {
-                binding.buttonLogin.visibility = View.VISIBLE
-                binding.buttonLogin.text = "Confirm"
-            }
+            binding.buttonLogin.visibility = View.VISIBLE
+            binding.buttonLogin.text = "Confirm"
         } else {
             binding.textViewWelcome.visibility = View.GONE
             binding.editTextUsername.visibility = View.VISIBLE
@@ -131,11 +119,6 @@ class AuthFragment : Fragment() {
     private fun getCurrentDateTime(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         return dateFormat.format(Date())
-    }
-
-    private fun parseDate(dateString: String): Date? {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        return dateFormat.parse(dateString)
     }
 
     override fun onDestroyView() {

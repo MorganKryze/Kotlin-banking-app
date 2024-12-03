@@ -10,11 +10,17 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import fr.kodelab.banking.databinding.ActivityMainBinding
+import fr.kodelab.banking.db.UserDAO
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var userDAO: UserDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +31,6 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
@@ -34,6 +38,27 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        userDAO = UserDAO(this)
+
+        // Check if the user is authenticated and navigate accordingly
+        val user = userDAO.getAllUsers().firstOrNull()
+        if (user != null) {
+            val lastLoginDate = user.lastLogin?.let { parseDate(it) }
+            val currentDate = Date()
+            val diffInDays = lastLoginDate?.let { (currentDate.time - it.time) / TimeUnit.DAYS.toMillis(1) }
+
+            if (diffInDays != null && diffInDays < 45) {
+                // Navigate to the home page if the last login is less than 45 days
+                navController.navigate(R.id.navigation_home)
+            } else {
+                // Navigate to the landing page if the last login is more than 45 days
+                navController.navigate(R.id.landingFragment)
+            }
+        } else {
+            // Navigate to the landing page if no user is found
+            navController.navigate(R.id.landingFragment)
+        }
 
         // Observe the current destination and update the visibility of the BottomNavigationView
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -48,18 +73,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        // Check if the user is authenticated and navigate accordingly
-        if (isUserAuthenticated()) {
-            navController.navigate(R.id.navigation_home)
-        } else {
-            navController.navigate(R.id.landingFragment)
-        }
     }
 
-    private fun isUserAuthenticated(): Boolean {
-        // Implement your authentication check logic here
-        return false
+    private fun parseDate(dateString: String): Date? {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        return dateFormat.parse(dateString)
     }
 
     override fun onSupportNavigateUp(): Boolean {
