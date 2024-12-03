@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageLanding"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
         android:src="@drawable/landing"
         android:contentDescription="@string/landing_image_description"
         android:scaleType="centerCrop"

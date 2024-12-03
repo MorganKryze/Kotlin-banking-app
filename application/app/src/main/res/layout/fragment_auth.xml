@@ -3,18 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/textAuth"
+        android:id="@+id/textViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Authentication Fragment"
-        android:textSize="18sp" />
+        android:textSize="30sp"
+        android:visibility="gone"
+        android:layout_marginBottom="90dp"
+        android:gravity="center" />
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/editTextPin"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Please enter your PIN"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        android:layout_marginBottom="20dp" />
 
     <Button
-        android:id="@+id/buttonGoToHome"
+        android:id="@+id/buttonCreateAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Home" />
+        android:text="Start Journey"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:visibility="gone" />
 </LinearLayout>

@@ -6,5 +6,5 @@
     <string name="landing_image_description">Description of the landing image</string>
     <string name="landing_text">Welcome to our app! Discover amazing features and start your journey
         with us.</string>
-    <string name="go_to_auth">Login here</string>
+    <string name="go_to_auth">Start here</string>
 </resources>
