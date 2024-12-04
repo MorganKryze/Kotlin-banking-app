@@ -25,6 +25,7 @@ class AuthFragment : Fragment() {
     private lateinit var userDAO: UserDAO
     private var isAccountCreated: Boolean = false
     private var user: User? = null
+    private var isSignOut: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +54,7 @@ class AuthFragment : Fragment() {
             binding.editTextUsername.visibility = View.GONE
             binding.buttonCreateAccount.visibility = View.GONE
             binding.buttonLogin.visibility = View.VISIBLE
-            binding.buttonLogin.text = "Confirm"
+            binding.buttonLogin.text = if (isSignOut) "Confirm Sign Out" else "Confirm"
         } else {
             binding.textViewWelcome.visibility = View.GONE
             binding.editTextUsername.visibility = View.VISIBLE
@@ -78,13 +79,13 @@ class AuthFragment : Fragment() {
             val pin = binding.editTextPin.text.toString()
             if (validateInput(pin)) {
                 if (validatePin(pin)) {
-                    try {
+                    if (isSignOut) {
+                        userDAO.updateLastLogin(user!!.id)
+                        findNavController().navigate(R.id.action_authFragment_to_landingFragment)
+                    } else {
                         userDAO.updateLastLogin(user!!.id)
                         // Navigate to the home page
                         findNavController().navigate(R.id.action_authFragment_to_homeFragment)
-                    } catch (e: Exception) {
-                        Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show()
-                        e.printStackTrace()
                     }
                 }
             }
