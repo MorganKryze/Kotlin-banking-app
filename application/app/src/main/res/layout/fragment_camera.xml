@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="16dp">
 
-    <TextView
+    <SurfaceView
+        android:id="@+id/surfaceViewCamera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/buttonCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Camera"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
-
-    <FrameLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:background="@android:color/darker_gray"
-        android:layout_gravity="center">
-
-        <!-- Add camera preview and capture functionality here -->
-    </FrameLayout>
-</LinearLayout>
+        android:text="Capture"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal" />
+</RelativeLayout>
