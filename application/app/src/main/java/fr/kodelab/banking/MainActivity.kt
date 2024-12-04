@@ -46,13 +46,13 @@ class MainActivity : AppCompatActivity() {
         if (user != null) {
             val lastLoginDate = user.lastLogin?.let { parseDate(it) }
             val currentDate = Date()
-            val diffInDays = lastLoginDate?.let { (currentDate.time - it.time) / TimeUnit.DAYS.toMillis(1) }
+            val diffInMinutes = lastLoginDate?.let { (currentDate.time - it.time) / TimeUnit.MINUTES.toMillis(1) }
 
-            if (diffInDays != null && diffInDays < 45) {
-                // Navigate to the home page if the last login is less than 45 days
+            if (diffInMinutes != null && diffInMinutes < 15) {
+                // Navigate to the home page if the last login is less than 15 minutes
                 navController.navigate(R.id.navigation_home)
             } else {
-                // Navigate to the landing page if the last login is more than 45 days
+                // Navigate to the landing page if the last login is more than 15 minutes
                 navController.navigate(R.id.landingFragment)
             }
         } else {
