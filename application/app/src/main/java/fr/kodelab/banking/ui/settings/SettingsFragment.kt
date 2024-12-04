@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import fr.kodelab.banking.R
 import fr.kodelab.banking.databinding.FragmentSettingsBinding
+import fr.kodelab.banking.db.FinancialDataDAO
 import fr.kodelab.banking.db.UserDAO
+import fr.kodelab.banking.model.FinancialData
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -19,6 +21,8 @@ class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private lateinit var userDAO: UserDAO
+    private lateinit var financialDataDAO: FinancialDataDAO
+    private var isDeveloperMode: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +36,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userDAO = UserDAO(requireContext())
+        financialDataDAO = FinancialDataDAO(requireContext())
 
         // Get the user and set the user information
         val user = userDAO.getAllUsers().firstOrNull()
@@ -45,6 +50,24 @@ class SettingsFragment : Fragment() {
             userDAO.deleteAllUsers()
             Toast.makeText(context, "All data deleted. Please reauthenticate.", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_settingsFragment_to_authFragment)
+        }
+
+        binding.switchDeveloperMode.setOnCheckedChangeListener { _, isChecked ->
+            isDeveloperMode = isChecked
+            binding.developerModeLayout.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+
+        binding.buttonAddFinancialEntry.setOnClickListener {
+            val financialData = FinancialData(
+                id = 0,
+                userId = 1, // Assuming userId is 1 for the current user
+                amount = 100.0,
+                tag = "Hardcoded Entry",
+                date = Date().time.toString(),
+                location = "Hardcoded Location"
+            )
+            financialDataDAO.addFinancialData(financialData)
+            Toast.makeText(context, "Financial data added successfully", Toast.LENGTH_SHORT).show()
         }
     }
 

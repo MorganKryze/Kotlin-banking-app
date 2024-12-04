@@ -79,17 +79,65 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonEraseData"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp" 
-                android:text="Erase"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:textColor="@android:color/white"
-                android:padding="8dp"
-                android:textSize="14sp"
-                app:cornerRadius="20dp" 
-                android:layout_gravity="center_vertical" />
+                    android:layout_height="50dp"
+                    android:text="Erase"
+                    android:backgroundTint="@android:color/holo_red_dark"
+                    android:textColor="@android:color/white"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    app:cornerRadius="20dp"
+                    android:layout_gravity="center_vertical" />
             </LinearLayout>
 
-            <!-- Add more settings here as needed -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Developer Mode"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:layout_gravity="center_vertical" />
+
+                <Switch
+                    android:id="@+id/switchDeveloperMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/developerModeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Add Financial Entry"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:layout_gravity="center_vertical" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonAddFinancialEntry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="Add"
+                    android:backgroundTint="@android:color/holo_blue_dark"
+                    android:textColor="@android:color/white"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    app:cornerRadius="20dp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
