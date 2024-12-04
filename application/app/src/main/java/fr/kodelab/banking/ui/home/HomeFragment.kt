@@ -1,38 +1,46 @@
 package fr.kodelab.banking.ui.home
 
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import fr.kodelab.banking.databinding.FragmentHomeBinding
+import fr.kodelab.banking.db.UserDAO
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var userDAO: UserDAO
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
+    ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        userDAO = UserDAO(requireContext())
+
+        // Get the user and set the welcome message
+        val user = userDAO.getAllUsers().firstOrNull()
+        if (user != null) {
+            val welcomeText = "Welcome back, "
+            val usernameText = user.name
+            val spannable = SpannableString("$welcomeText$usernameText")
+            spannable.setSpan(StyleSpan(android.graphics.Typeface.BOLD), welcomeText.length, spannable.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            binding.textViewWelcome.text = spannable
         }
-        return root
+
+        // Add any additional setup for the placeholder square if needed
     }
 
     override fun onDestroyView() {
