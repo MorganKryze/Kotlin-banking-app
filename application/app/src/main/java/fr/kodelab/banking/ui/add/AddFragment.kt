@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import fr.kodelab.banking.R
@@ -33,30 +35,37 @@ class AddFragment : Fragment() {
 
         financialDataDAO = FinancialDataDAO(requireContext())
 
-        binding.buttonAddData.setOnClickListener {
-            val amountText = binding.editTextAmount.text.toString()
-            val tagText = binding.editTextTag.text.toString()
-            val dateText = binding.editTextDate.text.toString()
-            val locationText = binding.editTextLocation.text.toString()
+        // Set up the spinner for tags
+        val tags = listOf("Groceries", "Utilities", "Transport", "Entertainment", "Other")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, tags)
+        binding.spinnerTag.adapter = adapter
 
-            if (validateInput(amountText, tagText, dateText, locationText)) {
-                val amount = amountText.toDoubleOrNull() ?: 0.0
-                val date = parseDate(dateText)
-                val financialData = FinancialData(
-                    id = 0,
-                    userId = 1, // Assuming userId is 1 for the current user
-                    amount = amount,
-                    tag = tagText,
-                    date = date?.time.toString(),
-                    location = locationText
-                )
-                financialDataDAO.addFinancialData(financialData)
-                Toast.makeText(context, "Financial data added successfully", Toast.LENGTH_SHORT).show()
-                // Clear the form fields
-                binding.editTextAmount.text.clear()
-                binding.editTextTag.text.clear()
-                binding.editTextDate.text.clear()
-                binding.editTextLocation.text.clear()
+        binding.buttonAddData.setOnClickListener {
+            try {
+                val amountText = binding.editTextAmount.text.toString()
+                val tag = binding.spinnerTag.selectedItem.toString()
+                val dateText = binding.editTextDate.text.toString()
+                val locationText = binding.editTextLocation.text.toString()
+
+                if (validateInput(amountText, tag, dateText, locationText)) {
+                    val amount = amountText.toDoubleOrNull() ?: 0.0
+                    val date = parseDate(dateText)
+                    val financialData = FinancialData(
+                        id = 0,
+                        userId = 1, // Assuming userId is 1 for the current user
+                        amount = amount,
+                        tag = tag,
+                        date = date?.time.toString(),
+                        location = locationText
+                    )
+                    financialDataDAO.addFinancialData(financialData)
+                    Toast.makeText(context, "Financial data added successfully", Toast.LENGTH_SHORT).show()
+                    // Clear the form fields
+                    clearFormFields()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Failed to add financial data: ${e.message}", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
             }
         }
     }
@@ -72,6 +81,13 @@ class AddFragment : Fragment() {
     private fun parseDate(dateString: String): Date? {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.parse(dateString)
+    }
+
+    private fun clearFormFields() {
+        binding.editTextAmount.text.clear()
+        binding.spinnerTag.setSelection(0)
+        binding.editTextDate.text.clear()
+        binding.editTextLocation.text.clear()
     }
 
     override fun onDestroyView() {

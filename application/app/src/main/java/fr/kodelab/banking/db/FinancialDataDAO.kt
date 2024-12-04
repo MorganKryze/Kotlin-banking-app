@@ -49,5 +49,10 @@ class FinancialDataDAO(context: Context) {
         return financialDataList
     }
 
+    fun deleteAllFinancialData() {
+        val db = dbHelper.writableDatabase
+        db.delete(DatabaseHelper.TABLE_FINANCIAL_DATA, null, null)
+    }
+
     // Other methods...
 }

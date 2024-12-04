@@ -11,10 +11,10 @@ import fr.kodelab.banking.R
 import fr.kodelab.banking.databinding.FragmentSettingsBinding
 import fr.kodelab.banking.db.FinancialDataDAO
 import fr.kodelab.banking.db.UserDAO
-import fr.kodelab.banking.model.FinancialData
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import fr.kodelab.banking.model.FinancialData
 
 class SettingsFragment : Fragment() {
 
@@ -47,9 +47,15 @@ class SettingsFragment : Fragment() {
         }
 
         binding.buttonEraseData.setOnClickListener {
-            userDAO.deleteAllUsers()
-            Toast.makeText(context, "All data deleted. Please reauthenticate.", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_settingsFragment_to_authFragment)
+            try {
+                financialDataDAO.deleteAllFinancialData()
+                userDAO.deleteAllUsers()
+                Toast.makeText(context, "All data deleted. Please reauthenticate.", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_settingsFragment_to_authFragment)
+            } catch (e: Exception) {
+                Toast.makeText(context, "Failed to delete data: ${e.message}", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
         }
 
         binding.switchDeveloperMode.setOnCheckedChangeListener { _, isChecked ->
