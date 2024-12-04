@@ -34,27 +34,36 @@
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_navigation_home_to_dashboard"
-            app:destination="@id/navigation_dashboard" />
+            android:id="@+id/action_navigation_home_to_add"
+            app:destination="@id/navigation_add" />
         <action
-            android:id="@+id/action_navigation_home_to_notifications"
-            app:destination="@id/navigation_notifications" />
+            android:id="@+id/action_navigation_home_to_camera"
+            app:destination="@id/navigation_camera" />
+        <action
+            android:id="@+id/action_navigation_home_to_list"
+            app:destination="@id/navigation_list" />
         <action
             android:id="@+id/action_navigation_home_to_settings"
             app:destination="@id/navigation_settings" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="fr.kodelab.banking.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_add"
+        android:name="fr.kodelab.banking.ui.add.AddFragment"
+        android:label="Add"
+        tools:layout="@layout/fragment_add" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="fr.kodelab.banking.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_camera"
+        android:name="fr.kodelab.banking.ui.camera.CameraFragment"
+        android:label="Camera"
+        tools:layout="@layout/fragment_camera" />
+
+    <fragment
+        android:id="@+id/navigation_list"
+        android:name="fr.kodelab.banking.ui.list.ListFragment"
+        android:label="List"
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/navigation_settings"
