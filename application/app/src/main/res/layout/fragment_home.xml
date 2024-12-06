@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ap="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,12 +15,12 @@
         android:textSize="24sp"
         android:layout_marginBottom="16dp" />
 
-    <View
+    <com.androidplot.xy.XYPlot
+        style="@style/APDefacto.Light"
         android:id="@+id/viewGraphPlaceholder"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="16dp" />
+        ap:title="Dépenses au cours du temps"/>
 
     <!-- Add other UI components as needed -->
 </LinearLayout>
